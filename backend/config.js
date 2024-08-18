@@ -47,6 +47,17 @@ const subdomainDictionary = {
     koreatimes: 'Korea Times',
     news4jax: 'News4Jax',
     clickondetroit: 'Click On Detroit',
+    npr: 'NPR',
+    denverpost: 'The Denver Post',
+    ndtv: 'NDTV',
+    indiatoday: 'India Today',
+    nature: 'nature nedicine',
+    washingtontimes: 'The Washington Times',
+    theguardian: 'The Guardian',
+    ign: 'IGN',
+    yankodesign: 'Yanko Design',
+    upi: 'UPI',
+    phys: 'Phys Org'
   };
 
 module.exports = {

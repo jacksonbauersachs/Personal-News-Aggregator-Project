@@ -24,24 +24,10 @@ const NewsFeed = ({ userEmail }) => {
 
           response = await axios.get(query);
         } else {
-          response = await axios.get('http://localhost:5000/api/news?country=us');
+          response = await axios.get('http://localhost:5000/api/news?country=us'); // Default articles for non-logged-in users
         }
 
-        console.log('Fetched articles:', response.data);
-
-        const articlesWithValidImages = response.data.filter(article => {
-          return article.urlToImage && article.urlToImage.trim() !== '' && article.urlToImage !== 'None';
-        });
-
-        console.log('Articles with valid images:', articlesWithValidImages);
-
-        const articlesWithSourceAndDate = articlesWithValidImages.map(article => ({
-          ...article,
-          source: article.source ? article.source : 'Unknown Source',
-          publishedAt: article.publishedAt || 'Unknown Date' // Use formatted string directly
-        }));
-
-        setArticles(articlesWithSourceAndDate);
+        setArticles(response.data); // Simply set the articles without additional filtering
       } catch (error) {
         console.error('Error fetching articles:', error);
       }
@@ -62,11 +48,9 @@ const NewsFeed = ({ userEmail }) => {
 
   // Handle click on article card
   const handleCardClick = (articleUrl, e) => {
-    // Prevent navigation if the click was on the Description toggle
     if (e.target.closest('.description-toggle')) {
       return;
     }
-    // Otherwise, navigate to the article
     window.open(articleUrl, '_blank');
   };
 
@@ -81,7 +65,7 @@ const NewsFeed = ({ userEmail }) => {
             <div
               key={index}
               className={`article-card ${expandedArticles.includes(index) ? 'expanded' : ''}`}
-              onClick={(e) => handleCardClick(article.url, e)} // Handle card click
+              onClick={(e) => handleCardClick(article.url, e)}
             >
               {article.urlToImage ? (
                 <img src={article.urlToImage} alt={article.title} className="article-image" onError={(e) => e.target.style.display = 'none'} />
@@ -98,7 +82,7 @@ const NewsFeed = ({ userEmail }) => {
               {/* Description Dropdown */}
               <div className="description-toggle" onClick={(e) => toggleDescription(index, e)}>
                 <span className="description-text">Description</span>
-                <span className="toggle-arrow">{expandedArticles.includes(index) ? '▲' : '▼'}</span> {/* Arrow icon */}
+                <span className="toggle-arrow">{expandedArticles.includes(index) ? '▲' : '▼'}</span>
               </div>
               {expandedArticles.includes(index) && (
                 <div className="article-description">
@@ -117,6 +101,7 @@ const NewsFeed = ({ userEmail }) => {
 };
 
 export default NewsFeed;
+
 
 
 
